@@ -1,0 +1,24 @@
+body{
+  position: relative;
+
+  font-family: $sans-stack;
+  font-size: 16px;
+  font-weight: 400;
+  color: $dark-grey;
+  padding: 0;
+
+  background: $light-grey;
+}
+nav{
+  position:inherit;
+}
+h1{
+  font-size: 1.75rem;
+  margin: 0.5rem 0;
+}
+button{
+  display: inline-block;
+  border: none;
+  padding: 0.75rem 2rem;
+  background: none;
+}

@@ -1,0 +1,19 @@
+---
+---
+// import css to nomalize html elements and also include open sans
+@import url(normalize.css);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,300);
+
+//default font
+$sans-stack: 'Open Sans', Arial, Sans-serif;
+
+//Site colours
+$white: #fff;
+$light-grey: #f4f4f4;
+$dark-grey: #343434;
+$red: #ff4343; // brand red
+$blue: #55acee; // brand blue/twitter blue
+$orange: #ff822e; // brand orange
+
+@import 'general';
+@import 'navigation';

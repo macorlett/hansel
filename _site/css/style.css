@@ -1,0 +1,94 @@
+@import url(normalize.css);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,300);
+body {
+  position: relative;
+  font-family: "Open Sans", Arial, Sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #343434;
+  padding: 0;
+  background: #f4f4f4; }
+
+nav {
+  position: inherit; }
+
+h1 {
+  font-size: 1.75rem;
+  margin: 0.5rem 0; }
+
+button {
+  display: inline-block;
+  border: none;
+  padding: 0.75rem 2rem;
+  background: none; }
+
+#nav--listener {
+  display: none; }
+
+.nav--icon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10; }
+  .nav--icon svg {
+    height: auto;
+    width: 70px;
+    cursor: pointer;
+    transform: translate3d(0, 0, 0); }
+  .nav--icon path {
+    fill: none;
+    stroke-width: 11px;
+    stroke-linecap: round;
+    stroke: #343434;
+    stroke-dashoffset: -20px;
+    stroke-dasharray: 60px 300px;
+    transition: stroke-dashoffset 0.35s cubic-bezier(0.25, -0.25, 0.75, 1.25), stroke-dasharray 0.35s cubic-bezier(0.25, -0.25, 0.75, 1.25); }
+
+.arrow #top, .arrow #bottom {
+  stroke-dasharray: 25px 300px;
+  stroke-dashoffset: -230px; }
+
+.nav--draw {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background: #f4f4f4;
+  box-shadow: none;
+  transform: translateX(-100%);
+  transition: transform .25s ease-in-out, box-shadow .25s ease-in-out; }
+  .nav--draw .draw--header {
+    border-bottom: 1px solid #b3b3b3;
+    padding: 0 60px;
+    overflow: hidden; }
+  .nav--draw h1 {
+    margin: 1rem 0; }
+  .nav--draw ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+  .nav--draw li {
+    font-size: 1.25rem; }
+  .nav--draw i {
+    margin-right: 1rem; }
+  .nav--draw button {
+    padding: 0.75rem 1.15rem;
+    display: block;
+    text-align: left;
+    width: 100%; }
+    .nav--draw button:hover {
+      background: #55acee;
+      color: white; }
+
+#nav--listener:checked ~ .nav--draw {
+  transform: translateX(0);
+  box-shadow: 1px 0 10px rgba(0, 0, 0, 0.3); }
+
+.black--out {
+  z-index: 8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3); }

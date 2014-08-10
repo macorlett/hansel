@@ -1,0 +1,13 @@
+name: "hansel"
+decription: "Exploring the world through digital bread crumbs"
+
+# url: "http://hansel.co"
+url: "http://10.1.1.5:4000"
+port: 4000
+
+paginate: 10
+
+markdown: rdiscount
+permalink: pretty
+sass:
+style: :compressed
