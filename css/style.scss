@@ -1,5 +1,24 @@
 ---
 ---
+@mixin flex-box(){
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+@mixin flex-flow($dir,$wrap){
+  -ms-flex-flow: $dir $wrap;
+  -webkit-flex-flow: $dir $wrap;
+  -moz-flex-flow: $dir $wrap;
+  flex-flow: $dir $wrap;
+}
+@mixin flex($big,$sml,$size){
+  -ms-flex: $big $sml $size;
+  -webkit-flex: $big $sml $size;
+  -moz-flex: $big $sml $size;
+  flex: $big $sml $size;
+}
+
 // import css to nomalize html elements and also include open sans
 @import url(normalize.css);
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,300);
@@ -17,3 +36,4 @@ $orange: #ff822e; // brand orange
 
 @import 'general';
 @import 'navigation';
+@import 'location-crumb';

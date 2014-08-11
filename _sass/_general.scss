@@ -11,14 +11,54 @@ body{
 }
 nav{
   position:inherit;
+  min-height: 70px;
 }
 h1{
   font-size: 1.75rem;
   margin: 0.5rem 0;
+}
+h3{
+  font-size: 1.17rem;
+}
+main,aside{
+  width: 100%;
+  padding: 1rem 3rem;
+  box-sizing: border-box;
+  justify-content: center;
+
+  @include flex-box();
+  @include flex-flow(row,wrap);
+  &.action--buttons{
+    padding: 1rem;
+  }
 }
 button{
   display: inline-block;
   border: none;
   padding: 0.75rem 2rem;
   background: none;
+  &.circle{
+    border-radius: 100%;
+    color: $white;
+    padding:19px 14.5px;
+    margin: 0 0.75rem;
+  }
+  &.red{
+    background: $red;
+    &:hover{
+      background: darken($red,5%);
+    }
+  }
+  &.blue{
+    background: $blue;
+    &:hover{
+      background: darken($blue,5%);
+    }
+  }
+  &.orange{
+    background: $orange;
+    &:hover{
+      background: darken($orange,5%);
+    }
+  }
 }
