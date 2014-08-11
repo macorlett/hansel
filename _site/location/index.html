@@ -53,10 +53,36 @@
     <!-- End of app-header -->
 
   <!-- map item large goes in here -->
+<main>
+  <div class="map--wrapper">
+    <div class="map--large">
+      <i class="fa fa-map-marker fa-fw fa-3x map--marker"></i>
+      <!-- use javascript to insert google map -->
+    </div>
+    <h3>
+      <!-- map location name -->
+      62 Ghuznee street
+    </h3>
+  </div>
+</main>
 
   <!-- app button's are placed in this section -->
+<aside class="action--buttons">
+  <button class="circle red">
+    <i class="fa fa-arrow-left fa-fw fa-2x"></i>
+  </button>
+  <button class="circle blue">
+    <i class="fa fa-twitter fa-fw fa-2x"></i>
+  </button>
+  <button class="circle orange">
+    <i class="fa fa-exclamation fa-fw fa-2x"></i>
+  </button>
+</aside>
 
     <!-- place footer content here -->
+    <script src="http://10.1.1.5:4000/js/test-data.js"></script>
     <script src="http://10.1.1.5:4000/js/main.js"></script>
+    <!-- note, this api key will need to be changed to a client key for final release -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy4BD0O5uoB7k81AgPHCePkj9Lf1A9DQ8"></script>
   </body>
 </html>
