@@ -101,4 +101,4 @@ function locationTracker(data){
   // if the person is close enough trigger net crumb
 }
 
-var blob=new detectLocation('watch');
+//var blob=new detectLocation('watch');
