@@ -6,28 +6,43 @@
 
 // front end to handle client side functions and data managment
 
+function startTrail(trail){
+  this.trail=trail; // trail data you are using to start a new trail.
+  this.currentLoc={};
+  this.targetLoc={};
+  this.activeCrumb={}; //defaults to the first crumb
+
+}
+
+startTrail.prototype.init=function(trail){
+  this.key=trail.id+trail.author;
+  storeLocal(trail); // check to see if trail is in local storage
+  preload(this.key); //start preloading images
+  this.activeCrumb=getCrumb(this.key,0);
+
+}
+
+// other functions to follow
+
 var currentLocation,
     lastLocation;
 
 //store data locally
 function storeLocal(data){
   if(typeof(Storage)!=="undefined"){
-    var store=JSON.stringify(data);
-    var keyName=data.id+data.author;
-    var status="processing";
+    this.store=JSON.stringify(data);
+    this.keyName=data.id+data.author;
 
     //check if the data already exists
-    if(storeCheck(keyName)){
+    if(storeCheck(this.keyName)){
       // is it up to date?
-      if(!storeUpdated(keyName,data.updated)){
+      if(!storeUpdated(this.keyName,data.updated)){
         //if not up to date then replace it
-        localStorage.setItem(keyName,store);
-        status="data updated";
+        localStorage.setItem(this.keyName,this.store);
       }
     }else{
       // if it doesn't exist create it
-      localStorage.setItem(keyName,store);
-      status="data stored locally";
+      localStorage.setItem(this.keyName,this.store);
     }
   }else{
     //redirect to the page that tells the user they need to upgrade their browser
@@ -46,9 +61,9 @@ function storeCheck(key){
 
 //check if data is up to date
 function storeUpdated(key,time){
-  var data=JSON.parse(localStorage.getItem(key));
+  this.data=JSON.parse(localStorage.getItem(key));
   
-  if(data.updated>=time){
+  if(this.data.updated>=time){
     return true; //data is up to date
   }else{
     return false; //data is out of date
@@ -56,9 +71,9 @@ function storeUpdated(key,time){
 }
 
 function getCrumb(key,pos){
-  var trail=JSON.parse(localStorage.getItem(key));
+  this.trail=JSON.parse(localStorage.getItem(key));
 
-  return trail.crumbs[pos];
+  return this.trail.crumbs[pos];
 }
 
 function detectLocation(type,options){
