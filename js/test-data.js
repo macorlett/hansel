@@ -8,19 +8,20 @@ var trail={
     "id":"123",
     "name":"Blob's trail",
     "author":"@Blob",
-    "updated":1407730744,
+    "updated":1407730745,
     "crumbs":[
       {
       "type":"location",
-      "lng":-41.293008,
+      "lon":-41.293008,
       "lat":174.775097,
       "zoom":16,
+      "threshold":15,
       "place":"62 Ghuznee street",
       "map":""
       },
       {
       "type":"location",
-      "lng":-41.293008,
+      "lon":-41.293008,
       "lat":174.775097,
       "zoom":16,
       "place":"62 Ghuznee street",
