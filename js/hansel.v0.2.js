@@ -1,13 +1,13 @@
 function trail(key){
   this.key=key; // trail storage id
   this.ac=0; //active crumb
-  this.watch; //watch object for location crumbs
+  //this.watch; //watch object for location crumbs
   this.trail; // trail data
   this.crumbs={}; //crumb data
   this.currentLoc;
   this.targetLoc;
 
-  this.locatonOptions={
+  this.locationOptions={
     enableHighAccuracy:false,
     timeout:5000,
     maximumAge:30000
@@ -35,7 +35,7 @@ trail.prototype.crumbHandler=function(crumb){
 
   switch(crumb.type){
     case "location":
-      this.locationCrumb(crumb);
+      locationCrumb(crumb,this);
       break;
     case "image":
       this.imageCrumb(crumb);
@@ -46,56 +46,7 @@ trail.prototype.crumbHandler=function(crumb){
   }
 }
 
-trail.prototype.locationCrumb=function(crumb){
-  if(this.trail.options){
-    this.locationOptions={
-      enableHighAccuracy:this.trail.options.highAccuracy,
-      timeout:this.trail.options.timeout,
-      maximumAge:this.trail.options.maxAge
-    };
-  }
-  if(navigator.geolocation){
-    var loc=this.locationHandler;
-    var locCrumb=this.crumbs[this.ac];
-    var nextCrumb=this.nextCrumb;
-    this.watch=navigator.geolocation.watchPosition(function(data){loc(data,locCrumb,nextCrumb)},this.errorHandler,this.locatonOptions);
-  }
-}
-trail.prototype.locationHandler=function(data,crumb,nextCrumb){
-  //alert(crumbs);
-  //this.trail=JSON.parse(localStorage.getItem(this.key));
-  //this.crumbs=this.trail.crumbs;
-  //alert(JSON.stringify(crumb));
-  alert(JSON.stringify(data));
-  this.targetLoc={"lat":crumb.lat,"lon":crumb.lon};
-  this.currentLoc={"lat":data.coords.latitude,"lon":data.coords.longitude};
 
-  //calculate distance between the target and current location
-  this.r=6371;//km
-
-  //convert lat and lon to radians
-  this.tlat=targetLoc.lat.toRad();
-  this.clat=currentLoc.lat.toRad();
-  this.tlon=targetLoc.lon.toRad();
-  this.clon=currentLoc.lon.toRad();
-
-  this.dlat=(clat-tlat).toRad();
-  this.dlon=(clon-tlon).toRad();
-
-  //calculate the distance between the 2 points
-  this.a=Math.sin(this.dlat/2)*Math.sin(this.dlat/2)+Math.sin(this.dlon/2)*Math.sin(this.dlon/2)*Math.cos(this.tlat)*Math.cos(this.clat);
-  this.c=2*Math.atan2(Math.sqrt(this.a),Math.sqrt(1-this.a));
-
-  this.dis=(r*c)*1000; //distance in meters
-
-  //if the disance is within the threashold unlock the next crumb
-  if(this.dis<=crumb.threshold){
-    //stop the watchPosition from checking
-    navigator.geolocation.clearWatch(this.watch);
-    //unlock next crumb
-    nextCrumb();
-  }
-}
 
 trail.prototype.imageCrumb=function(crumb){
   //this function will handle the image crumb conditions
@@ -125,7 +76,7 @@ trail.prototype.renderCrumb=function(crumb){
       if(window.devicePixelRatio>=2){
         this.mapScale=2;
       }
-      this.mapUrl='http://maps.googleapis.com/maps/api/staticmap?center='+crumb.lon+','+crumb.lat+'&zoom='+crumb.zoom+'&size='+this.mapSize+'&scale='+this.mapScale;
+      this.mapUrl='http://maps.googleapis.com/maps/api/staticmap?center='+crumb.lat+','+crumb.lon+'&zoom='+crumb.zoom+'&size='+this.mapSize+'&scale='+this.mapScale;
       $('#crumb--'+this.ac+' .map--large').css({'background':'center/100% auto url('+this.mapUrl+')'});
       break;
   }
@@ -140,10 +91,6 @@ trail.prototype.renderCrumb=function(crumb){
 trail.prototype.nextCrumb=function(){
   this.ac+=1;
   this.crumbHandler(this.crumbs[this.ac]);
-}
-
-Number.prototype.toRad = function() {
-  return this * Math.PI / 180;
 }
 
 //storage functions
@@ -179,6 +126,75 @@ function storeUpdated(key,time){
   }else{
     return false;
   }
+}
+
+function locationCrumb(crumb,obj){
+  //alert(JSON.stringify(obj));
+  this.options=obj.trail.options;
+  this.watch;
+  if(!this.options){
+    this.options={
+      enableHighAccuracy: obj.locationOptions.enableHighAccuracy,
+      timeout: obj.locationOptions.timeout,
+      maximumAge: obj.locationOptions.maxAge
+    };
+  }
+  if(navigator.geolocation){
+    this.watch=navigator.geolocation.watchPosition(function(data){locationHandler(data,crumb,obj,this.watch)},function(data){errorHandler(data)},this.options);
+  }
+}
+
+function errorHandler(error){
+  // replace the following  with a proper error handling function
+  console.warn('ERROR('+error.code+'): '+error.message);
+}
+
+function locationHandler(data,crumb,obj,watch){
+  this.targetLoc={"lat":crumb.lat,"lon":crumb.lon};
+
+  console.log('target: lat '+this.targetLoc.lat+', lon '+this.targetLoc.lon);
+
+  this.currentLoc={"lat":data.coords.latitude,"lon":data.coords.longitude};
+
+  console.log('current: lat '+this.currentLoc.lat+', lon '+this.currentLoc.lon);
+
+  //calculate distance between the target and current location
+  this.r=6371;// k meters
+
+  //convert lat and lon to radians
+  /*
+  this.tlat=targetLoc.lat.toRad();
+  this.clat=currentLoc.lat.toRad();
+  this.tlon=targetLoc.lon.toRad();
+  this.clon=currentLoc.lon.toRad();
+
+  this.dlat=(clat-tlat).toRad();
+  this.dlon=(clon-tlon).toRad();
+
+  //calculate the distance between the 2 points
+  this.a=Math.sin(this.dlat/2)*Math.sin(this.dlat/2)+Math.sin(this.dlon/2)*Math.sin(this.dlon/2)*Math.cos(this.tlat)*Math.cos(this.clat);
+  this.c=2*Math.atan2(Math.sqrt(this.a),Math.sqrt(1-this.a));
+
+  this.dis=(r*c); //distance in meters
+  */
+
+  this.x=(currentLoc.lon-targetLoc.lon)*Math.cos((targetLoc.lat+currentLoc.lat)/2);
+  this.y=(currentLoc.lat-targetLoc.lat);
+  this.dis=(Math.sqrt(x*x + y*y)*r)*10; //seems to be of by a factor of 10?
+
+  console.log('m: '+this.dis);
+
+  //if the disance is within the threashold unlock the next crumb
+  if(this.dis<=crumb.threshold){
+    //stop the watchPosition from checking
+    navigator.geolocation.clearWatch(watch);
+    //unlock next crumb
+    obj.nextCrumb();
+  }
+}
+
+Number.prototype.toRad = function() {
+  return this * Math.PI / 180;
 }
 
 $(document).ready(function(){
