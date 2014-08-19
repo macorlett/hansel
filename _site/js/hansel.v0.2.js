@@ -50,10 +50,20 @@ trail.prototype.crumbHandler=function(crumb){
 
 trail.prototype.imageCrumb=function(crumb){
   //this function will handle the image crumb conditions
+
+  // insert image into background of image--large
+
+  // insert text into the h3 tag
 }
 
 trail.prototype.textCrumb=function(crumb){
   //this function will handle the text crumb conditions
+
+  // find the image or map from the latest crumb to have one and insert it into the background of map--small or image--small
+
+  // add the text into text--message
+
+  // add optional placeholder to text--answer input
 }
 
 trail.prototype.renderCrumb=function(crumb){
@@ -67,8 +77,9 @@ trail.prototype.renderCrumb=function(crumb){
       $('#crumb--'+this.ac+' main').append('<div class="map--wrapper"></div>');
       $('#crumb--'+this.ac+' .map--wrapper').append('<div class="map--large"></div>');
       $('#crumb--'+this.ac+' .map--large').append('<i class="fa fa-map-marker fa-fw fa-3x map--marker"></i>');
-      $('#crumb--'+this.ac+' .map--large').append('<h3></h3>');
+      
       $('#crumb--'+this.ac+' .map--large').css({'height':$('#crumb--'+this.ac+' .map--large').width()+'px'});
+      $('#crumb--'+this.ac+' .map--wrapper').append('<h3></h3>');
 
       //add map to the background of .map--large
       this.mapSize=$('#crumb--'+this.ac+' .map--large').width()+'x'+$('#crumb--'+this.ac+' .map--large').height();
@@ -78,6 +89,39 @@ trail.prototype.renderCrumb=function(crumb){
       }
       this.mapUrl='http://maps.googleapis.com/maps/api/staticmap?center='+crumb.lat+','+crumb.lon+'&zoom='+crumb.zoom+'&size='+this.mapSize+'&scale='+this.mapScale;
       $('#crumb--'+this.ac+' .map--large').css({'background':'center/100% auto url('+this.mapUrl+')'});
+      break;
+    case "text":
+      //build wrapper
+      $('#crumb--'+this.ac+' main').append('<div class="text--wrapper"></div>');
+      // search trail for previous crumb types that arn't text
+      if(!this.prevCrumbType){
+        while(i=this.ac;i>0;i--){
+          if(this.crumb[i].type!="text"){
+            this.prevCrumbType=this.crumb[i];
+            break;
+          }
+        }
+      }
+      // insert the right image at the top of the text crumb
+      if(this.prevCrumbType=="location"){
+        //render mini map from previous crumb
+        $('#crumb--'+this.ac+' .text--wrapper').append('<div class="map--small"></div>');
+        $('#crumb--'+this.ac+' .map--small').append('<i class="fa fa-map-marker fa-fw fa-3x mapp--marker"></i>');
+      }else if(this.prevCrumbType=="image"){
+        //render small image from previous crumb
+        $('#crumb--'+this.ac+' .text--wrapper').append('<div class="image--small"></div>');
+      }
+      // insert text message / clue
+      $('#crumb--'+this.ac+' .text--wrapper').append('<div class="text--message"></div>');
+      $('#crumb--'+this.ac+' .text--wrapper').append('<input class"text--answer" type="text">');
+      break;
+    case "image":
+      // build wrapper
+      $('#crumb--'+this.ac+' main').append('<div class="image---wrapper"></div>');
+      //render large image
+      $('#crumb--'+this.ac+' .image--wrapper').append('<div class="image--large"></div>');
+      //render image text
+      $('#crumb--'+this.ac+' .image--wrapper').append('<h3></h3>');
       break;
   }
 
