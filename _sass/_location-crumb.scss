@@ -1,12 +1,3 @@
-.map--wrapper{
-   @include flex(0,1,660px);
-   text-align: center;
-   h3{
-    display: inline-block;
-    color: lighten($dark-grey,50%);
-  }
-}
-
 .map--large{
   background: darken($light-grey,30%);
   box-shadow: 0 10px 0 rgba(0,0,0,0.2) inset;

@@ -1,0 +1,10 @@
+.map--small,
+.image--small{
+  width:30%;
+  background: darken($light-grey,30%);
+  box-shadow: 0 5px 0 rgba(0,0,0,0.2) inset;
+  position: relative;
+  left:50%;
+  transform: translateX(-50%);
+  border-radius: 100%;
+}

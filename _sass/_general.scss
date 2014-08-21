@@ -62,3 +62,10 @@ button{
     }
   }
 }
+input[type="text"]{
+  height: 50px;
+  border-radius: 3px;
+  border: 1px solid lighten($dark-grey,50%);
+  background: darken($light-grey,2%);
+  width: 100%;
+}
