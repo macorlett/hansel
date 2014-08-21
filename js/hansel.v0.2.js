@@ -4,6 +4,7 @@ function trail(key){
   //this.watch; //watch object for location crumbs
   this.trail; // trail data
   this.crumbs={}; //crumb data
+  this.mapUrl={};
   this.currentLoc;
   this.targetLoc;
 
@@ -80,6 +81,7 @@ trail.prototype.renderCrumb=function(crumb){
       
       $('#crumb--'+this.ac+' .map--large').css({'height':$('#crumb--'+this.ac+' .map--large').width()+'px'});
       $('#crumb--'+this.ac+' .map--wrapper').append('<h3></h3>');
+      $('#crumb--'+this.ac+' .map--wrapper h3').text(crumb.place);
 
       //add map to the background of .map--large
       this.mapSize=$('#crumb--'+this.ac+' .map--large').width()+'x'+$('#crumb--'+this.ac+' .map--large').height();
@@ -87,17 +89,23 @@ trail.prototype.renderCrumb=function(crumb){
       if(window.devicePixelRatio>=2){
         this.mapScale=2;
       }
-      this.mapUrl='http://maps.googleapis.com/maps/api/staticmap?center='+crumb.lat+','+crumb.lon+'&zoom='+crumb.zoom+'&size='+this.mapSize+'&scale='+this.mapScale;
-      $('#crumb--'+this.ac+' .map--large').css({'background':'center/100% auto url('+this.mapUrl+')'});
+      this.mapUrl[this.ac]={
+        "url":'http://maps.googleapis.com/maps/api/staticmap?center='+crumb.lat+','+crumb.lon+'&zoom='+crumb.zoom+'&size='+this.mapSize+'&scale='+this.mapScale
+      };
+      $('#crumb--'+this.ac+' .map--large').css({'background':'center/100% auto url('+this.mapUrl[this.ac].url+')'});
       break;
     case "text":
       //build wrapper
       $('#crumb--'+this.ac+' main').append('<div class="text--wrapper"></div>');
       // search trail for previous crumb types that arn't text
+
       if(!this.prevCrumbType){
-        while(i=this.ac;i>0;i--){
-          if(this.crumb[i].type!="text"){
-            this.prevCrumbType=this.crumb[i];
+
+        for(i=this.ac;i>=0;i--){
+          if(this.crumbs[i].type!="text"){
+            this.prevCrumbType=this.crumbs[i].type;
+            this.prevCrumb=i;
+            console.log("prev crumb type: "+this.prevCrumbType);
             break;
           }
         }
@@ -106,13 +114,16 @@ trail.prototype.renderCrumb=function(crumb){
       if(this.prevCrumbType=="location"){
         //render mini map from previous crumb
         $('#crumb--'+this.ac+' .text--wrapper').append('<div class="map--small"></div>');
-        $('#crumb--'+this.ac+' .map--small').append('<i class="fa fa-map-marker fa-fw fa-3x mapp--marker"></i>');
+        $('#crumb--'+this.ac+' .map--small').append('<i class="fa fa-map-marker fa-fw fa-3x map--marker"></i>');
+        $('#crumb--'+this.ac+' .map--small').css({'height':$('#crumb--'+this.ac+' .map--small').width()+'px'});
+        $('#crumb--'+this.ac+' .map--small').css({'background':'center/300% auto url('+this.mapUrl[this.prevCrumb].url+')'});
       }else if(this.prevCrumbType=="image"){
         //render small image from previous crumb
         $('#crumb--'+this.ac+' .text--wrapper').append('<div class="image--small"></div>');
       }
       // insert text message / clue
-      $('#crumb--'+this.ac+' .text--wrapper').append('<div class="text--message"></div>');
+      $('#crumb--'+this.ac+' .text--wrapper').append('<h3></h3>');
+      $('#crumb--'+this.ac+' .text--wrapper h3').text(crumb.message);
       $('#crumb--'+this.ac+' .text--wrapper').append('<input class"text--answer" type="text">');
       break;
     case "image":
@@ -122,6 +133,7 @@ trail.prototype.renderCrumb=function(crumb){
       $('#crumb--'+this.ac+' .image--wrapper').append('<div class="image--large"></div>');
       //render image text
       $('#crumb--'+this.ac+' .image--wrapper').append('<h3></h3>');
+      $('#crumb--'+this.ac+' .image--wrapper h3').text(crumb.message);
       break;
   }
 
@@ -185,7 +197,7 @@ function locationCrumb(crumb,obj){
   }
   if(navigator.geolocation){
     this.watch=navigator.geolocation.watchPosition(function(data){locationHandler(data,crumb,obj,this.watch)},function(data){errorHandler(data)},this.options);
-  }
+  } 
 }
 
 function errorHandler(error){
