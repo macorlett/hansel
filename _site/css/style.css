@@ -59,6 +59,13 @@ button {
     button.orange:hover {
       background: #ff7315; }
 
+input[type="text"] {
+  height: 50px;
+  border-radius: 3px;
+  border: 1px solid #b3b3b3;
+  background: #efefef;
+  width: 100%; }
+
 #nav--listener {
   display: none; }
 
@@ -130,15 +137,30 @@ button {
   bottom: 0;
   background: rgba(0, 0, 0, 0.3); }
 
-.map--wrapper {
-  -ms-flex: 0 1 660px;
-  -webkit-flex: 0 1 660px;
-  -moz-flex: 0 1 660px;
-  flex: 0 1 660px;
+.map--wrapper,
+.text--wrapper {
+  -ms-flex: 0 1 440px;
+  -webkit-flex: 0 1 440px;
+  -moz-flex: 0 1 440px;
+  flex: 0 1 440px;
   text-align: center; }
-  .map--wrapper h3 {
+  .map--wrapper h3,
+  .text--wrapper h3 {
+    line-height: 2rem;
     display: inline-block;
-    color: #b3b3b3; }
+    color: #818181; }
+  .map--wrapper h2,
+  .text--wrapper h2 {
+    line-height: 2.5rem;
+    color: #818181; }
+  .map--wrapper .map--marker,
+  .text--wrapper .map--marker {
+    color: #ff4343;
+    -webkit-text-stroke: 2px #a90000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%); }
 
 .map--large {
   background: #a8a8a8;
@@ -153,3 +175,13 @@ button {
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-100%); }
+
+.map--small,
+.image--small {
+  width: 30%;
+  background: #a8a8a8;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2) inset;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 100%; }
