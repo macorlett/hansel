@@ -1,0 +1,175 @@
+---
+---
+@mixin flex-box(){
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+@mixin flex-flow($dir,$wrap){
+  -ms-flex-flow: $dir $wrap;
+  -webkit-flex-flow: $dir $wrap;
+  -moz-flex-flow: $dir $wrap;
+  flex-flow: $dir $wrap;
+}
+@mixin flex($big,$sml,$size){
+  -ms-flex: $big $sml $size;
+  -webkit-flex: $big $sml $size;
+  -moz-flex: $big $sml $size;
+  flex: $big $sml $size;
+}
+
+// import css to nomalize html elements and also include open sans
+@import url(normalize.css);
+
+//default font
+$serif-stack: 'Noto Serif','Bree Serif', serif;
+
+$dark-grey: #333;
+$grey: #666;
+$white: #fff;
+
+body{
+  font-family: $serif-stack;
+  font-size: 16px;
+  font-weight: 400;
+  color: $dark-grey;
+}
+
+main,
+section{
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 800px;
+  justify-content: center;
+  @include flex-box();
+  @include flex-flow(row,wrap);
+}
+section{
+  min-height: 600px;
+  padding: 50px 0;
+  overflow: hidden;
+  img{
+    max-width: 100%;
+    height: auto;
+  }
+}
+.flex--box{
+  position: relative;;
+  @include flex(0,1,660px);
+  justify-content: center;
+
+  text-align: center;
+  &.small{
+    @include flex(0,1,330px);
+    text-align: left;
+  }
+}
+.float--center{
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  padding: 0 1rem;
+}
+main{
+  p{
+    font-size: 1.5rem;
+    margin: 0;
+    margin-bottom: 2rem;
+  }
+}
+p{
+  margin: 0;
+  margin-bottom: 2rem;
+}
+form{
+  position: relative;
+}
+input{
+  margin-bottom: 1rem;
+}
+input[type="email"]{
+  border-radius: 30px;
+  width: 100%;
+  height: 60px;
+  padding: 0 2rem;
+  border: 2px solid lighten($dark-grey,50%);
+  box-sizing: border-box;
+  font-size: 1.25rem;
+  text-align: center;
+  background-color: rgba(255,255,255,0.2);
+}
+input[type="submit"]{
+  border-radius: 30px;
+  border: 2px solid lighten($dark-grey,50%);
+  height:60px;
+  background: $white;
+  padding: 0 2rem;
+  font-size: 1.25rem;
+  color: $grey;
+  background-color: rgba(255,255,255,0.2);
+  &:hover{
+    background:darken($white,10%);
+  }
+}
+h1{
+  font-family: 'Bree Serif', 'Noto Serif', serif;
+  font-weight: 400;
+  font-size: 3rem;
+  letter-spacing: 10px;
+  margin: 1.5rem 0;
+  padding: 0;
+  line-height: 1;
+}
+.image--background{
+  &.trees{
+    background: center rgba(0,0,0,0.3) url(../images/blackforest.jpg);
+  }
+  &.stream{
+    background: center url(../images/streammist.jpg) rgba(0,0,0,0.3);
+  }
+  p{
+    color: $white;
+  }
+}
+.hide-from-view{
+  position: absolute;
+  left:-5000px;
+}
+
+@media only screen and (min-width: 900px){
+  .image--background{
+    &.trees,
+    &.stream{
+      background-size: 100%;
+    }
+  }
+}
+@media only screen and (min-width: 660px){
+  input[type="email"]{
+    padding: 0 13rem 0 2rem;
+    text-align: left;
+  }
+  input[type="submit"]{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0);
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi){
+  main{
+    min-height: 700px;
+  }
+  main{
+    img{
+      height: auto;
+      max-width: 50%;
+    }
+  }
+}
