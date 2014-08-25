@@ -8,12 +8,13 @@ var trailData={
     "id":"123",
     "name":"Blob's trail",
     "author":"@Blob",
-    "updated":1407730757,
+    "updated":1407730763,
     "crumbs":[
       {
       "type":"location",
-      "lat":-41.293118899, //-41.2929,
-      "lon":174.775059699, //174.7749,
+      "coords":{"lat":-41.2929,"lon":174.7749,"threshold":10},
+      //"lat":-41.293118899, //-41.2929,
+      //"lon":174.775059699, //174.7749,
       "zoom":16,
       "threshold":10,
       "place":"62 Ghuznee street",
@@ -27,9 +28,10 @@ var trailData={
       },
       {
       "type":"image",
-      "sucess_type":"click",
+      "sucess_type":"click", // this can be click, answer or location
       "message":"In fermentum urna erat, eget tristique quam porttitor non. Aliquam mattis tellus libero, nec fringilla diam auctor ac volutpat.",
-      "location":[{"lat":"","lon":"","threshold":""}], //only used if success_type is location
+      "url":"", // url for the image file goes here
+      "coords":{"lat":-41.2929,"lon":174.7749,"threshold":10}, //only used if success_type is location
       "answer":"" //only used if success_type is answer
       }
     ]
