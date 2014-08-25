@@ -64,7 +64,13 @@ input[type="text"] {
   border-radius: 3px;
   border: 1px solid #b3b3b3;
   background: #efefef;
-  width: 100%; }
+  width: 100%;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1) inset;
+  padding: 0 1rem;
+  color: #818181;
+  font-size: 1.17rem;
+  font-weight: 600;
+  box-sizing: border-box; }
 
 #nav--listener {
   display: none; }
@@ -137,6 +143,15 @@ input[type="text"] {
   bottom: 0;
   background: rgba(0, 0, 0, 0.3); }
 
+.crumb--wrapper {
+  width: 100%;
+  position: absolute;
+  transition: transform .5s ease-in-out; }
+  .crumb--wrapper.prev--crumb {
+    transform: translateX(-100%); }
+  .crumb--wrapper.next--crumb {
+    transform: translateX(100%); }
+
 .map--wrapper,
 .text--wrapper {
   -ms-flex: 0 1 440px;
@@ -168,13 +183,6 @@ input[type="text"] {
   border-radius: 100%;
   position: relative;
   width: 100%; }
-  .map--large .map--marker {
-    color: #ff4343;
-    -webkit-text-stroke: 2px #a90000;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-100%); }
 
 .map--small,
 .image--small {

@@ -32,7 +32,12 @@ trail.prototype.init=function(){
 }
 
 trail.prototype.crumbHandler=function(crumb){
+
   this.renderCrumb(crumb); // render the current crumb
+
+  if(this.ac>0){
+    this.prevCrumbHandler(this.ac-1);
+  }
 
   switch(crumb.type){
     case "location":
@@ -47,29 +52,51 @@ trail.prototype.crumbHandler=function(crumb){
   }
 }
 
-
+trail.prototype.prevCrumbHandler=function(num){
+  $('#crumb--'+num).addClass('prev--crumb');
+  $('#crumb--'+this.ac).removeClass('next--crumb');
+}
 
 trail.prototype.imageCrumb=function(crumb){
-  //this function will handle the image crumb conditions
-
-  // insert image into background of image--large
-
-  // insert text into the h3 tag
+  // send instructions to the input handler
+  if(!crumb.success_type=='location'){
+    this.inputHandler(crumb,this);
+  }else{
+    locationCrumb(crumb,this);
+  }
 }
 
 trail.prototype.textCrumb=function(crumb){
-  //this function will handle the text crumb conditions
+  // send instructions to the input handler
+  this.inputHandler(crumb,this);
+}
 
-  // find the image or map from the latest crumb to have one and insert it into the background of map--small or image--small
+trail.prototype.inputHandler=function(crumb,obj){
 
-  // add the text into text--message
-
-  // add optional placeholder to text--answer input
+  // if the crumb requires an answer
+  if(crumb.success_type=='answer'){
+    // a an event to listen for the correct answer to the text question.
+    $(document).on( 'input', '#answer--'+this.ac, function(){
+      //console.log(this.value);
+      if(this.value==crumb.answer){
+        console.log('answer: '+this.value+' --> is correct!');
+        obj.nextCrumb();
+      }
+    });
+  // if the crumb just requires a button click
+  }else if(crumb.success_type=='click'){
+    $(document).on('click', '#continue--'+this.ac, function(){
+      obj.nextCrumb();
+    });
+  }
 }
 
 trail.prototype.renderCrumb=function(crumb){
   //this function will handle the generation of html for each crumb
   $('#trail--container').append('<div id="crumb--'+this.ac+'" class="crumb--wrapper"></div>');
+  if(this.ac>0){
+    $('#crumb--'+this.ac).addClass('next--crumb');
+  }
   $('#crumb--'+this.ac).append('<main></main>');
 
   switch(crumb.type){
@@ -90,7 +117,7 @@ trail.prototype.renderCrumb=function(crumb){
         this.mapScale=2;
       }
       this.mapUrl[this.ac]={
-        "url":'http://maps.googleapis.com/maps/api/staticmap?center='+crumb.lat+','+crumb.lon+'&zoom='+crumb.zoom+'&size='+this.mapSize+'&scale='+this.mapScale
+        "url":'http://maps.googleapis.com/maps/api/staticmap?center='+crumb.coords.lat+','+crumb.coords.lon+'&zoom='+crumb.zoom+'&size='+this.mapSize+'&scale='+this.mapScale
       };
       $('#crumb--'+this.ac+' .map--large').css({'background':'center/100% auto url('+this.mapUrl[this.ac].url+')'});
       break;
@@ -124,7 +151,7 @@ trail.prototype.renderCrumb=function(crumb){
       // insert text message / clue
       $('#crumb--'+this.ac+' .text--wrapper').append('<h3></h3>');
       $('#crumb--'+this.ac+' .text--wrapper h3').text(crumb.message);
-      $('#crumb--'+this.ac+' .text--wrapper').append('<input class"text--answer" type="text">');
+      $('#crumb--'+this.ac+' .text--wrapper').append('<input id="answer--'+this.ac+'" type="text" value="">');
       break;
     case "image":
       // build wrapper
@@ -206,7 +233,7 @@ function errorHandler(error){
 }
 
 function locationHandler(data,crumb,obj,watch){
-  this.targetLoc={"lat":crumb.lat,"lon":crumb.lon};
+  this.targetLoc={"lat":crumb.coords.lat,"lon":crumb.coords.lon};
 
   console.log('target: lat '+this.targetLoc.lat+', lon '+this.targetLoc.lon);
 
@@ -241,7 +268,7 @@ function locationHandler(data,crumb,obj,watch){
   console.log('m: '+this.dis);
 
   //if the disance is within the threashold unlock the next crumb
-  if(this.dis<=crumb.threshold){
+  if(this.dis<=crumb.coords.threshold){
     //stop the watchPosition from checking
     navigator.geolocation.clearWatch(watch);
     //unlock next crumb

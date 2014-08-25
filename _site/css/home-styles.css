@@ -1,0 +1,132 @@
+@import url(normalize.css);
+body {
+  font-family: "Noto Serif", "Bree Serif", serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333333; }
+
+main,
+section {
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 800px;
+  justify-content: center;
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -ms-flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  flex-flow: row wrap; }
+
+section {
+  min-height: 600px;
+  padding: 50px 0;
+  overflow: hidden; }
+  section img {
+    max-width: 100%;
+    height: auto; }
+
+.flex--box {
+  position: relative;
+  -ms-flex: 0 1 660px;
+  -webkit-flex: 0 1 660px;
+  -moz-flex: 0 1 660px;
+  flex: 0 1 660px;
+  justify-content: center;
+  text-align: center; }
+  .flex--box.small {
+    -ms-flex: 0 1 330px;
+    -webkit-flex: 0 1 330px;
+    -moz-flex: 0 1 330px;
+    flex: 0 1 330px;
+    text-align: left; }
+
+.float--center {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 1rem; }
+
+main p {
+  font-size: 1.5rem;
+  margin: 0;
+  margin-bottom: 2rem; }
+
+p {
+  margin: 0;
+  margin-bottom: 2rem; }
+
+form {
+  position: relative; }
+
+input {
+  margin-bottom: 1rem; }
+
+input[type="email"] {
+  border-radius: 30px;
+  width: 100%;
+  height: 60px;
+  padding: 0 2rem;
+  border: 2px solid #b3b3b3;
+  box-sizing: border-box;
+  font-size: 1.25rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.2); }
+
+input[type="submit"] {
+  border-radius: 30px;
+  border: 2px solid #b3b3b3;
+  height: 60px;
+  background: white;
+  padding: 0 2rem;
+  font-size: 1.25rem;
+  color: #666666;
+  background-color: rgba(255, 255, 255, 0.2); }
+  input[type="submit"]:hover {
+    background: #e6e6e6; }
+
+h1 {
+  font-family: 'Bree Serif', 'Noto Serif', serif;
+  font-weight: 400;
+  font-size: 3rem;
+  letter-spacing: 10px;
+  margin: 1.5rem 0;
+  padding: 0;
+  line-height: 1; }
+
+.image--background.trees {
+  background: center rgba(0, 0, 0, 0.3) url(../images/blackforest.jpg); }
+.image--background.stream {
+  background: center url(../images/streammist.jpg) rgba(0, 0, 0, 0.3); }
+.image--background p {
+  color: white; }
+
+.hide-from-view {
+  position: absolute;
+  left: -5000px; }
+
+@media only screen and (min-width: 900px) {
+  .image--background.trees, .image--background.stream {
+    background-size: 100%; } }
+@media only screen and (min-width: 660px) {
+  input[type="email"] {
+    padding: 0 13rem 0 2rem;
+    text-align: left; }
+
+  input[type="submit"] {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent; } }
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  main {
+    min-height: 700px; }
+
+  main img {
+    height: auto;
+    max-width: 50%; } }
